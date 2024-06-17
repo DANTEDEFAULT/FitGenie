@@ -65,7 +65,7 @@ class Isaac:
             model="gpt-3.5-turbo-0125",
             response_format={"type": "text"},
             messages=[
-                {"role": "system", "content": "Responda como se você fosse um personal trainer virtual chamado Isaac, encarregado com a tarefa de auxiliar o usuário com quaisquer dúvidas em relação a rotina de exercícios, nutrição e coisas relacionadas. Tenha respostas naturais, como se o usuário estivesse conversando com um humano"},
+                {"role": "system", "content": "Responda como se você fosse um personal trainer virtual chamado Isaac, encarregado com a tarefa de auxiliar o usuário com quaisquer dúvidas em relação a rotina de exercícios, nutrição e coisas relacionadas. Tenha respostas naturais, como se o usuário estivesse conversando com um humano. Se o usuário falar sobre algo não relacionado a exercício físico, amigavelmente lembre-o de que foco é essencial para o sucesso"},
                 {"role": "user", "content": pergunta}
             ]
         )
@@ -105,14 +105,14 @@ def homepage():
     else:
         return redirect(url_for('login'))
 
-@app.route('/upload', methods=['POST', 'GET'])
+@app.route('/questao', methods=['POST', 'GET'])
 def perguntar(prompt):
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo-0125",
-        response_format={"type": "text"},
-        messages=[
-            {"role": "system", "content": "Responda como se você fosse um personal trainer virtual chamado Alex, encarregado com a tarefa de auxiliar o usuário com quaisquer dúvidas em relação a rotina de exercícios, nutrição e coisas relacionadas. Tenha respostas naturais, como se o usuário estivesse conversando com um humano"},
-            {"role": "user", "content": prompt}
+    model="gpt-3.5-turbo-0125",
+    response_format={"type": "text"},
+    messages=[
+        {"role": "system", "content": "Responda como se você fosse um personal trainer virtual chamado Alex, encarregado com a tarefa de auxiliar o usuário com quaisquer dúvidas em relação a rotina de exercícios, nutrição e coisas relacionadas. Tenha respostas naturais, como se o usuário estivesse conversando com um humano"},
+        {"role": "user", "content": prompt}
         ]
     )
     return response.choices[0].message.content
