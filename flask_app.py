@@ -60,17 +60,6 @@ class Isaac:
             self.name = "Isaac"
             self.initialized = True
 
-    def responder_pergunta(self, pergunta):
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo-0125",
-            response_format={"type": "text"},
-            messages=[
-                {"role": "system", "content": "Responda como se você fosse um personal trainer virtual chamado Isaac, encarregado com a tarefa de auxiliar o usuário com quaisquer dúvidas em relação a rotina de exercícios, nutrição e coisas relacionadas. Tenha respostas naturais, como se o usuário estivesse conversando com um humano. Se o usuário falar sobre algo não relacionado a exercício físico, amigavelmente lembre-o de que foco é essencial para o sucesso"},
-                {"role": "user", "content": pergunta}
-            ]
-        )
-        return response.choices[0].message.content
-
 isaac_singleton = Isaac()
 isaac = isaac_singleton
 
