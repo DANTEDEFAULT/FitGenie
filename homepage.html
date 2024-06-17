@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Fundo preto */
+            color: #FFF; /* Texto branco */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #333; /* Fundo cinza escuro para contraste */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #FFD700; /* Amarelo */
+        }
+        h2 {
+            color: #FFD700; /* Amarelo */
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #FFD700; /* Amarelo */
+            color: #000; /* Preto */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #FFC700; /* Amarelo mais escuro */
+        }
+        .error-message {
+            color: red;
+            margin-top: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #FFD700; /* Amarelo */
+        }
+        .form-group input {
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #response {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #FFF;
+            border-radius: 5px;
+            border: 1px solid #FFD700;
+            color: #000;
+            display: none;
+        }
+        .logout-container {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logout-container">
+            <form id="logoutForm" action="/logout" method="get">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+        <h1>Bem-vindo à sua página pessoal, {{ username }}!</h1>
+        <div id="chat-section">
+            <h2>Sou o Isaac, seu Personal Trainer virtual, e seu melhor companheiro na vida fitness. Como posso ajudar?</h2>
+            <div class="form-group">
+                <label for="question">Faça sua pergunta:</label>
+                <input type="text" id="question" name="question">
+            </div>
+            <button id="askButton">Perguntar</button>
+            <div id="response" class="error-message"></div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('askButton').addEventListener('click', function() {
+            const question = document.getElementById('question').value;
+            fetch('/chatgpt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ prompt: question })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const responseDiv = document.getElementById('response');
+                responseDiv.innerText = data.resposta;
+                responseDiv.style.display = 'block';
+            })
+            .catch(error => {
+                const responseDiv = document.getElementById('response');
+                responseDiv.innerText = 'Erro ao processar a pergunta. Tente novamente.';
+                responseDiv.style.display = 'block';
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
